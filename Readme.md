@@ -1,8 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Сергей Крюков](https://up.htmlacademy.ru/javascript/18/user/1076727).
-* Наставник: `Неизвестно`.
-
+* Наставник: [Виктор Кан](https://htmlacademy.ru/profile/viktorkan).
 ---
 
 _Не удаляйте и не обращайте внимание на файлы:_<br>
