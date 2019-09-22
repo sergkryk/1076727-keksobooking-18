@@ -1,3 +1,4 @@
+'use strict';
 var advertsCount = 8;
 var map = document.querySelector('.map');
 var mapPin = document.querySelector('#pin').content.querySelector('.map__pin');
