@@ -41,7 +41,7 @@ var generateContent = function () {
   return arr;
 };
 
-mockArray = generateContent();
+var mockArray = generateContent();
 
 var fragment = document.createDocumentFragment();
 
@@ -54,5 +54,6 @@ for (var i = 0; i < advertsCount; i++) {
   fragment.appendChild(element);
 }
 
-pinList.appendChild(fragment);
 map.classList.remove('map--faded');
+pinList.appendChild(fragment);
+
