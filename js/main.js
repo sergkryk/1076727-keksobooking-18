@@ -8,7 +8,7 @@ var randomNumber = function (min, max) {
   // случайное число от min до (max+1)
   var rand = min + Math.random() * (max + 1 - min);
   return Math.floor(rand);
-}
+};
 
 var generateContent = function () {
   var arr = [];
@@ -28,9 +28,7 @@ var generateContent = function () {
         checkout: '14:00',
         features: 'parking',
         description: 'awesome view on the mountains',
-        photos: ['http://o0.github.io/assets/images/tokyo/hotel1.jpg',
-                 'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
-                 'http://o0.github.io/assets/images/tokyo/hotel3.jpg']
+        photos: ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg']
       },
       location: {
         x: randomNumber(60, 1030),
@@ -56,4 +54,3 @@ for (var i = 0; i < advertsCount; i++) {
 
 map.classList.remove('map--faded');
 pinList.appendChild(fragment);
-
