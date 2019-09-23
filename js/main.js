@@ -4,6 +4,8 @@ var map = document.querySelector('.map');
 var mapPin = document.querySelector('#pin').content.querySelector('.map__pin');
 var pinList = map.querySelector('.map__pins');
 var fragment = document.createDocumentFragment();
+var pinCard = document.querySelector('#card').content.querySelector('.map__card');
+var filtersContainer = map.querySelector('.map__filters-container');
 
 var randomNumber = function (min, max) {
   // случайное число от min до (max+1)
@@ -26,11 +28,11 @@ var MOCK = {
       max: 20000
     },
     rooms: {
-      min: 1,
-      max: 10
+      min: 2,
+      max: 4
     },
     guests: {
-      min: 1,
+      min: 2,
       max: 25
     },
     type: ['palace', 'flat', 'house', 'bungalo'],
@@ -90,11 +92,25 @@ var generatePins = function (array) {
   fragment.appendChild(element);
 };
 
-var mockArray = generateContent(MOCK);
+var generateCards = function (array) {
+  var element = pinCard.cloneNode(true);
+  element.querySelector('.popup__title').textContent = array.offer.title;
+  element.querySelector('.popup__text--address').textContent = array.offer.address;
+  element.querySelector('.popup__text--price').textContent = array.offer.price + ' ₽/ночь';
+  element.querySelector('.popup__type').textContent = array.offer.type;
+  element.querySelector('.popup__text--capacity').textContent = array.offer.rooms + ' комнаты для ' + array.offer.guests + ' гостей';
+  element.querySelector('.popup__text--time').textContent = 'Заезд после ' + array.offer.checkin + ', выезд до ' + array.offer.checkout;
+  element.querySelector('.popup__features').textContent = array.offer.features;
+  element.querySelector('.popup__description').textContent = array.offer.description;
+  element.querySelector('.popup__photo').src = array.offer.photos;
+  element.querySelector('.popup__avatar').src = array.author.avatar;
+  return element;
+};
 
+var mockArray = generateContent(MOCK);
 for (var i = 0; i < mockArray.length; i++) {
   generatePins(mockArray[i]);
 }
-
+filtersContainer.insertAdjacentElement('beforebegin', generateCards(mockArray[0]));
 map.classList.remove('map--faded');
 pinList.appendChild(fragment);
