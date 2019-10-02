@@ -16,7 +16,7 @@ var yourAdFormFields = yourAdForm.querySelectorAll('fieldset');
 var addressInput = document.querySelector('#address');
 var roomCapacity = document.querySelector('#capacity');
 var roomNumber = document.querySelector('#room_number');
-var roomList = roomNumber.querySelectorAll('option');
+// var roomList = roomNumber.querySelectorAll('option');
 var guestList = roomCapacity.querySelectorAll('option');
 // var adFormSubmitButton = document.querySelector('.ad-form__submit');
 
