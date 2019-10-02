@@ -6,7 +6,7 @@ var advertsCount = 8;
 var map = document.querySelector('.map');
 var mapPin = document.querySelector('#pin').content.querySelector('.map__pin');
 var mapPinMain = document.querySelector('.map__pin--main');
-// var pinList = map.querySelector('.map__pins');
+var pinList = map.querySelector('.map__pins');
 var fragment = document.createDocumentFragment();
 // var pinCard = document.querySelector('#card').content.querySelector('.map__card');
 // var filtersContainer = map.querySelector('.map__filters-container');
@@ -16,7 +16,9 @@ var yourAdFormFields = yourAdForm.querySelectorAll('fieldset');
 var addressInput = document.querySelector('#address');
 var roomCapacity = document.querySelector('#capacity');
 var roomNumber = document.querySelector('#room_number');
-var adFormSubmitButton = document.querySelector('.ad-form__submit');
+var roomList = roomNumber.querySelectorAll('option');
+var guestList = roomCapacity.querySelectorAll('option');
+// var adFormSubmitButton = document.querySelector('.ad-form__submit');
 
 // var PlaceType = {
 //   palace: 'Особняк',
@@ -156,12 +158,13 @@ var getPinCoordinates = function (pin) {
   return Math.floor(pin.getBoundingClientRect().left + PIN_RADIUS) + ',' + Math.floor(pin.getBoundingClientRect().top + PIN_HEIGTH);
 };
 
-var checkCapacity = function (number, capacity) {
-  if (number.value < capacity.value) {
-    number.setCustomValidity('Количество комнат должно совпадать с количеством гостей');
-    number.checkValidity();
+var enableGuests = function () {
+  if (roomNumber.value >= 100) {
+    guestList[guestList.length - 1].disabled = false;
   } else {
-    number.setCustomValidity('');
+    for (var i = 1; i <= roomNumber.value; i++) {
+      guestList[guestList.length - (1 + i)].disabled = false;
+    }
   }
 };
 
@@ -170,14 +173,15 @@ for (var i = 0; i < mockArray.length; i++) {
 }
 
 disableFieldset(yourAdFormFields);
-// addressInput.value = Math.round((mapPinMain.getBoundingClientRect().left + PIN_RADIUS)) + ',' + Math.floor((mapPinMain.getBoundingClientRect().top + PIN_RADIUS));
 addressInput.value = getPinCoordinates(mapPinMain);
 
 mapPinMain.addEventListener('mousedown', function () {
   removeClass(map, 'map--faded');
   removeClass(yourAdForm, 'ad-form--disabled');
   enableFieldset(yourAdFormFields);
+  pinList.appendChild(fragment);
   addressInput.value = getPinCoordinates(mapPinMain);
+  addressInput.readOnly = true;
 });
 
 mapPinMain.addEventListener('keydown', function (evt) {
@@ -185,10 +189,15 @@ mapPinMain.addEventListener('keydown', function (evt) {
     removeClass(map, 'map--faded');
     removeClass(yourAdForm, 'ad-form--disabled');
     enableFieldset(yourAdFormFields);
+    pinList.appendChild(fragment);
     addressInput.value = getPinCoordinates(mapPinMain);
+    addressInput.readOnly = true;
   }
 });
 
-adFormSubmitButton.addEventListener('click', function () {
-  checkCapacity(roomNumber, roomCapacity);
+disableFieldset(guestList);
+
+roomNumber.addEventListener('change', function () {
+  disableFieldset(guestList);
+  enableGuests();
 });
