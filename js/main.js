@@ -240,7 +240,7 @@ var changeMinPrice = function () {
   roomTypeList.forEach(function (it) {
     if (it.value === document.querySelector('#type').value) {
       roomPrice.min = appartmentTypePrice[it.value];
-      roomPrice.placeholder = appartmentTypePrice[it.value];
+      roomPrice.value = appartmentTypePrice[it.value];
     }
   });
 };
