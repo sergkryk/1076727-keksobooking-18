@@ -246,20 +246,23 @@ var changeMinPrice = function () {
 };
 
 // синхронизация времени въезда и выезда
-var timeSyncOut = function () {
-  checkInList.forEach(function (it) {
-    if (it.value === checkOutTime.value) {
+var checkingTimeSync = function (target, source) {
+  target.forEach(function (it) {
+    if (it.value === source.value) {
       it.selected = true;
     }
   });
 };
 
-var timeSyncIn = function () {
-  checkOutList.forEach(function (it) {
-    if (it.value === checkInTime.value) {
-      it.selected = true;
-    }
-  });
+// дейстиве при нажатии на главный пин на карте
+
+var mainPinClickHandler = function () {
+  removeClass(map, 'map--faded');
+  removeClass(yourAdForm, 'ad-form--disabled');
+  enableFieldset(yourAdFormFields);
+  pinList.appendChild(fragment);
+  addressInput.value = getPinCoordinates(mapPinMain);
+  addressInput.readOnly = true;
 };
 
 for (var i = 0; i < mockArray.length; i++) {
@@ -269,23 +272,11 @@ for (var i = 0; i < mockArray.length; i++) {
 disableFieldset(yourAdFormFields);
 addressInput.value = getPinCoordinates(mapPinMain);
 
-mapPinMain.addEventListener('mousedown', function () {
-  removeClass(map, 'map--faded');
-  removeClass(yourAdForm, 'ad-form--disabled');
-  enableFieldset(yourAdFormFields);
-  pinList.appendChild(fragment);
-  addressInput.value = getPinCoordinates(mapPinMain);
-  addressInput.readOnly = true;
-});
+mapPinMain.addEventListener('mousedown', mainPinClickHandler);
 
 mapPinMain.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
-    removeClass(map, 'map--faded');
-    removeClass(yourAdForm, 'ad-form--disabled');
-    enableFieldset(yourAdFormFields);
-    pinList.appendChild(fragment);
-    addressInput.value = getPinCoordinates(mapPinMain);
-    addressInput.readOnly = true;
+    mainPinClickHandler();
   }
 });
 
@@ -293,14 +284,16 @@ calculateGuestsNumber(roomNumber.value);
 
 changeMinPrice();
 
-// timeSync();
-
 roomNumber.addEventListener('change', function (evt) {
   calculateGuestsNumber(evt.target.value);
 });
 
 roomType.addEventListener('change', changeMinPrice);
 
-checkInTime.addEventListener('change', timeSyncIn);
+checkInTime.addEventListener('change', function () {
+  checkingTimeSync(checkOutList, checkInTime);
+});
 
-checkOutTime.addEventListener('change', timeSyncOut);
+checkOutTime.addEventListener('change', function () {
+  checkingTimeSync(checkInList, checkOutTime);
+});
