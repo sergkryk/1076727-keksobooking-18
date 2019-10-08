@@ -1,5 +1,4 @@
 'use strict';
-var ENTER_KEYCODE = 13;
 var ESC_KEYCODE = 27;
 var PIN_RADIUS = 32.5;
 var PIN_HEIGTH = 87;
@@ -8,7 +7,6 @@ var map = document.querySelector('.map');
 var mapPin = document.querySelector('#pin').content.querySelector('.map__pin');
 var mapPinMain = document.querySelector('.map__pin--main');
 var pinList = map.querySelector('.map__pins');
-var fragment = document.createDocumentFragment();
 var pinCard = document.querySelector('#card').content.querySelector('.map__card');
 var cardPhoto = document.querySelector('#card').content.querySelector('.popup__photo');
 var yourAdForm = document.querySelector('.ad-form');
@@ -23,10 +21,8 @@ var roomTypeList = document.querySelector('#type').querySelectorAll('option');
 var roomType = document.querySelector('#type');
 var roomPrice = document.querySelector('#price');
 // для синхронизации времени въезда и выезда
-var checkOutList = document.querySelector('#timeout').querySelectorAll('option');
 var checkOutTime = document.querySelector('#timeout');
 var checkInTime = document.querySelector('#timein');
-var checkInList = document.querySelector('#timein').querySelectorAll('option');
 
 var PlaceType = {
   palace: 'Особняк',
@@ -129,27 +125,21 @@ var generateContent = function (array) {
 // удаление карточки после нажатия кнопки ESC
 var onEscButtonPress = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
-    map.removeChild(pinCard);
+    map.removeChild(document.querySelector('.map__card'));
     document.removeEventListener('keydown', onEscButtonPress);
   }
 };
 
 //  отрисовка и удаление карточки при клике
 var renderCard = function (array) {
-  // добавляю карточку на страницу
-  pinCard.innerHTML = generatePinCard(array).innerHTML;
-  map.appendChild(pinCard);
-  // удаляю карточку при клике
-  pinCard.querySelector('.popup__close').addEventListener('click', function () {
-    map.removeChild(pinCard);
-    document.removeEventListener('keydown', onEscButtonPress);
-  });
-  // удаляю карточку при нажатии ESC
-  document.addEventListener('keydown', onEscButtonPress);
+  if (document.querySelector('.map__card')) {
+    document.querySelector('.map__card').remove();
+  }
+  map.appendChild(generatePinCard(array));
 };
 
 // генерирование пинов для городской карты
-var generatePins = function (array) {
+var generatePin = function (array) {
   var element = mapPin.cloneNode(true);
   element.tabIndex = 0;
   element.style.left = (array.location.x - 25) + 'px';
@@ -159,15 +149,10 @@ var generatePins = function (array) {
   element.addEventListener('click', function () {
     renderCard(array);
   });
-  element.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ENTER_KEYCODE) {
-      renderCard(array);
-    }
-  });
-  fragment.appendChild(element);
+  return element;
 };
 
-// генерирование содержимого карточки из массива
+// генерирование содержимого карточки для пина при клике
 var generatePinCard = function (card) {
   var element = pinCard.cloneNode(true);
   element.querySelector('.popup__title').textContent = card.offer.title;
@@ -191,6 +176,10 @@ var generatePinCard = function (card) {
   });
 
   element.querySelector('.popup__avatar').src = card.author.avatar;
+  element.querySelector('.popup__close').addEventListener('click', function () {
+    element.remove();
+  });
+  document.addEventListener('keydown', onEscButtonPress);
   return element;
 };
 
@@ -245,40 +234,29 @@ var changeMinPrice = function () {
   });
 };
 
-// синхронизация времени въезда и выезда
-var checkingTimeSync = function (target, source) {
-  target.forEach(function (it) {
-    if (it.value === source.value) {
-      it.selected = true;
-    }
+// отрисовка пинов на карте
+var renderPins = function (data) {
+  data.forEach(function (it) {
+    pinList.appendChild(generatePin(it));
   });
 };
 
 // дейстиве при нажатии на главный пин на карте
-
 var mainPinClickHandler = function () {
   removeClass(map, 'map--faded');
   removeClass(yourAdForm, 'ad-form--disabled');
   enableFieldset(yourAdFormFields);
-  pinList.appendChild(fragment);
+  renderPins(mockArray);
   addressInput.value = getPinCoordinates(mapPinMain);
   addressInput.readOnly = true;
+  mapPinMain.removeEventListener('click', mainPinClickHandler);
 };
 
-for (var i = 0; i < mockArray.length; i++) {
-  generatePins(mockArray[i]);
-}
-
 disableFieldset(yourAdFormFields);
+
 addressInput.value = getPinCoordinates(mapPinMain);
 
-mapPinMain.addEventListener('mousedown', mainPinClickHandler);
-
-mapPinMain.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
-    mainPinClickHandler();
-  }
-});
+mapPinMain.addEventListener('click', mainPinClickHandler);
 
 calculateGuestsNumber(roomNumber.value);
 
@@ -291,9 +269,9 @@ roomNumber.addEventListener('change', function (evt) {
 roomType.addEventListener('change', changeMinPrice);
 
 checkInTime.addEventListener('change', function () {
-  checkingTimeSync(checkOutList, checkInTime);
+  checkOutTime.value = checkInTime.value;
 });
 
 checkOutTime.addEventListener('change', function () {
-  checkingTimeSync(checkInList, checkOutTime);
+  checkInTime.value = checkOutTime.value;
 });
