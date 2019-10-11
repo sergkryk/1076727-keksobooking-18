@@ -3,11 +3,6 @@
   var map = document.querySelector('.map');
   var mapPinMain = document.querySelector('.map__pin--main');
 
-  window.map = {
-    mapPinMain: mapPinMain,
-    map: map
-  };
-
   // дейстиве при нажатии на главный пин на карте
   var mainPinClickHandler = function () {
     window.utils.removeClass(map, 'map--faded');
@@ -19,4 +14,9 @@
     mapPinMain.removeEventListener('click', mainPinClickHandler);
   };
   mapPinMain.addEventListener('click', mainPinClickHandler);
+
+  window.map = {
+    mapPinMain: mapPinMain,
+    map: map
+  };
 })();
