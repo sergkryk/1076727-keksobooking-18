@@ -26,23 +26,21 @@
     100: [0]
   };
 
-  window.form = {
-    getPinCoordinates: function (pin) {
-      return Math.floor(pin.getBoundingClientRect().left + PIN_RADIUS) + ',' + Math.floor(pin.getBoundingClientRect().top + PIN_HEIGTH);
-    },
-    disableFieldset: function (fieldset) {
-      for (var i = 0; i < fieldset.length; i++) {
-        fieldset[i].disabled = true;
-      }
-    },
-    enableFieldset: function (fieldset) {
-      for (var i = 0; i < fieldset.length; i++) {
-        fieldset[i].disabled = false;
-      }
-    },
-    addressInput: addressInput,
-    yourAdForm: yourAdForm,
-    yourAdFormFields: yourAdFormFields
+
+  var getPinCoordinates = function (pin) {
+    return Math.floor(pin.getBoundingClientRect().left + PIN_RADIUS) + ',' + Math.floor(pin.getBoundingClientRect().top + PIN_HEIGTH);
+  };
+
+  var disableFieldset = function (fieldset) {
+    for (var i = 0; i < fieldset.length; i++) {
+      fieldset[i].disabled = true;
+    }
+  };
+
+  var enableFieldset = function (fieldset) {
+    for (var i = 0; i < fieldset.length; i++) {
+      fieldset[i].disabled = false;
+    }
   };
 
   var changeMinPrice = function () {
@@ -87,7 +85,15 @@
     checkInTime.value = checkOutTime.value;
   });
 
-  window.form.disableFieldset(yourAdFormFields);
+  disableFieldset(yourAdFormFields);
 
-  addressInput.value = window.form.getPinCoordinates(window.map.mapPinMain);
+  addressInput.value = getPinCoordinates(window.map.mapPinMain);
+
+  window.form = {
+    addressInput: addressInput,
+    yourAdForm: yourAdForm,
+    yourAdFormFields: yourAdFormFields,
+    enableFieldset: enableFieldset,
+    getPinCoordinates: getPinCoordinates
+  };
 })();

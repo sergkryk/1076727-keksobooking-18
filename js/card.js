@@ -47,13 +47,15 @@
     return element;
   };
 
-  window.card = {
-    renderCard: function (array) {
-      if (document.querySelector('.map__card')) {
-        document.querySelector('.map__card').remove();
-      }
-      window.map.map.appendChild(generatePinCard(array));
+  var renderCard = function (array) {
+    if (document.querySelector('.map__card')) {
+      document.querySelector('.map__card').remove();
     }
+    window.map.map.appendChild(generatePinCard(array));
+  };
+
+  window.card = {
+    renderCard: renderCard
   };
 
 })();

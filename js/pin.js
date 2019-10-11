@@ -15,11 +15,13 @@
     return element;
   };
 
+  var renderPins = function (array) {
+    array.forEach(function (it) {
+      pinList.appendChild(generatePin(it));
+    });
+  };
+
   window.pin = {
-    renderPins: function (data) {
-      data.forEach(function (it) {
-        pinList.appendChild(generatePin(it));
-      });
-    }
+    renderPins: renderPins
   };
 })();
