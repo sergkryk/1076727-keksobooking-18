@@ -1,6 +1,5 @@
 'use strict';
 (function () {
-  var ESC_KEYCODE = 27;
   var pinCard = document.querySelector('#card').content.querySelector('.map__card');
   var cardPhoto = document.querySelector('#card').content.querySelector('.popup__photo');
   var PlaceType = {
@@ -11,7 +10,7 @@
   };
 
   var onEscButtonPress = function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
+    if (evt.keyCode === window.utils.ESC_KEYCODE) {
       window.map.map.removeChild(document.querySelector('.map__card'));
       document.removeEventListener('keydown', onEscButtonPress);
     }
