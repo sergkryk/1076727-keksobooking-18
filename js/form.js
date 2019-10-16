@@ -1,7 +1,7 @@
 'use strict';
 (function () {
   var PIN_RADIUS = 32.5;
-  var PIN_HEIGTH = 87;
+  var PIN_HEIGTH = 80;
   var roomType = document.querySelector('#type');
   var roomPrice = document.querySelector('#price');
   var roomTypeList = document.querySelector('#type').querySelectorAll('option');
@@ -28,7 +28,7 @@
 
 
   var getPinCoordinates = function (pin) {
-    return Math.floor(pin.getBoundingClientRect().left + PIN_RADIUS) + ',' + Math.floor(pin.getBoundingClientRect().top + PIN_HEIGTH);
+    return Math.floor((pin.getBoundingClientRect().left - window.map.map.getBoundingClientRect().left) + PIN_RADIUS) + ',' + Math.floor((pin.getBoundingClientRect().top - window.map.map.getBoundingClientRect().top) + PIN_HEIGTH);
   };
 
   var disableFieldset = function (fieldset) {
@@ -94,6 +94,8 @@
     yourAdForm: yourAdForm,
     yourAdFormFields: yourAdFormFields,
     enableFieldset: enableFieldset,
-    getPinCoordinates: getPinCoordinates
+    getPinCoordinates: getPinCoordinates,
+    PIN_HEIGTH: PIN_HEIGTH,
+    PIN_RADIUS: PIN_RADIUS
   };
 })();
