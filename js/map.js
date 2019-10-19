@@ -13,10 +13,11 @@
     window.form.addressInput.readOnly = true;
     mapPinMain.removeEventListener('click', mainPinClickHandler);
   };
-  mapPinMain.addEventListener('click', mainPinClickHandler);
+  // mapPinMain.addEventListener('click', mainPinClickHandler);
 
   window.map = {
     mapPinMain: mapPinMain,
-    map: map
+    map: map,
+    mainPinClickHandler: mainPinClickHandler
   };
 })();

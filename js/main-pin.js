@@ -3,9 +3,12 @@
   var mapLeftSide = 0;
   var mapTopShift = 80;
   var filtersContainerHeight = document.querySelector('.map__filters-container').getBoundingClientRect().height;
+  var bottomBorder = (window.map.map.getBoundingClientRect().bottom - filtersContainerHeight) - window.form.PIN_HEIGTH;
+  var sideBorder = window.map.map.getBoundingClientRect().width - window.form.PIN_RADIUS * 2;
 
   window.map.mapPinMain.addEventListener('mousedown', function (downEvt) {
     downEvt.preventDefault();
+    window.map.mainPinClickHandler();
     var startCoords = {
       x: downEvt.clientX,
       y: downEvt.clientY
@@ -27,21 +30,17 @@
         y: moveEvt.clientY
       };
 
-      if (window.map.mapPinMain.offsetTop - shift.y <= mapTopShift) {
-        window.map.mapPinMain.style.top = mapTopShift + 'px';
-      } else if (window.map.mapPinMain.offsetTop - shift.y >= (window.map.map.getBoundingClientRect().bottom - filtersContainerHeight) - window.form.PIN_HEIGTH) {
-        window.map.mapPinMain.style.top = ((window.map.map.getBoundingClientRect().bottom - filtersContainerHeight) - window.form.PIN_HEIGTH) + 'px';
-      } else {
-        window.map.mapPinMain.style.top = (window.map.mapPinMain.offsetTop - shift.y) + 'px';
-      }
+      var positionY = window.map.mapPinMain.offsetTop - shift.y;
+      var positionX = window.map.mapPinMain.offsetLeft - shift.x;
 
-      if (window.map.mapPinMain.offsetLeft - shift.x <= mapLeftSide) {
-        window.map.mapPinMain.style.left = mapLeftSide + 'px';
-      } else if (window.map.mapPinMain.offsetLeft - shift.x >= (window.map.map.getBoundingClientRect().width - window.form.PIN_RADIUS * 2)) {
-        window.map.mapPinMain.style.left = (window.map.map.getBoundingClientRect().width - window.form.PIN_RADIUS * 2) + 'px';
-      } else {
-        window.map.mapPinMain.style.left = (window.map.mapPinMain.offsetLeft - shift.x) + 'px';
-      }
+      positionY = positionY < mapTopShift ? mapTopShift : positionY;
+      positionY = positionY > bottomBorder ? bottomBorder : positionY;
+
+      positionX = positionX < mapLeftSide ? mapLeftSide : positionX;
+      positionX = positionX > sideBorder ? sideBorder : positionX;
+
+      window.map.mapPinMain.style.top = positionY + 'px';
+      window.map.mapPinMain.style.left = positionX + 'px';
     };
 
     var onMouseUp = function (upEvt) {
