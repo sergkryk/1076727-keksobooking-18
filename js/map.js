@@ -11,12 +11,13 @@
     window.pin.renderPins(window.data.mockArray);
     window.form.addressInput.value = window.form.getPinCoordinates(mapPinMain);
     window.form.addressInput.readOnly = true;
-    mapPinMain.removeEventListener('click', mainPinClickHandler);
+    mapPinMain.removeEventListener('mousedown', mainPinClickHandler);
   };
-  mapPinMain.addEventListener('click', mainPinClickHandler);
+  // mapPinMain.addEventListener('click', mainPinClickHandler);
 
   window.map = {
     mapPinMain: mapPinMain,
-    map: map
+    map: map,
+    mainPinClickHandler: mainPinClickHandler
   };
 })();
