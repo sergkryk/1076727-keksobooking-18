@@ -8,12 +8,11 @@
     window.utils.removeClass(map, 'map--faded');
     window.utils.removeClass(window.form.yourAdForm, 'ad-form--disabled');
     window.form.enableFieldset(window.form.yourAdFormFields);
-    window.pin.renderPins(window.data.mockArray);
+    window.load.load(window.pin.renderPins, window.load.onErrorHandler);
     window.form.addressInput.value = window.form.getPinCoordinates(mapPinMain);
     window.form.addressInput.readOnly = true;
     mapPinMain.removeEventListener('mousedown', mainPinClickHandler);
   };
-  // mapPinMain.addEventListener('click', mainPinClickHandler);
 
   window.map = {
     mapPinMain: mapPinMain,
