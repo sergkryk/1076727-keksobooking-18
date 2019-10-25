@@ -8,7 +8,6 @@
 
   window.map.mapPinMain.addEventListener('mousedown', function (downEvt) {
     downEvt.preventDefault();
-    window.map.mainPinClickHandler();
     var startCoords = {
       x: downEvt.clientX,
       y: downEvt.clientY

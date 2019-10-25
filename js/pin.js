@@ -2,6 +2,7 @@
 (function () {
   var mapPin = document.querySelector('#pin').content.querySelector('.map__pin');
   var pinList = window.map.map.querySelector('.map__pins');
+
   var generatePin = function (array) {
     var element = mapPin.cloneNode(true);
     element.tabIndex = 0;
