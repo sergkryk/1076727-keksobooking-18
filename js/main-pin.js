@@ -6,8 +6,6 @@
   var bottomBorder = (window.map.map.getBoundingClientRect().bottom - filtersContainerHeight) - window.form.PIN_HEIGTH;
   var sideBorder = window.map.map.getBoundingClientRect().width - window.form.PIN_RADIUS * 2;
 
-  window.map.mapPinMain.addEventListener('mousedown', window.map.mainPinClickHandler);
-
   window.map.mapPinMain.addEventListener('mousedown', function (downEvt) {
     downEvt.preventDefault();
     var startCoords = {
