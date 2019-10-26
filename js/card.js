@@ -46,15 +46,20 @@
     return element;
   };
 
-  var renderCard = function (array) {
+  var removeCard = function () {
     if (document.querySelector('.map__card')) {
       document.querySelector('.map__card').remove();
     }
+  };
+
+  var renderCard = function (array) {
+    removeCard();
     window.map.map.appendChild(generatePinCard(array));
   };
 
   window.card = {
-    renderCard: renderCard
+    renderCard: renderCard,
+    removeCard: removeCard
   };
 
 })();

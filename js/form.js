@@ -94,6 +94,7 @@
     yourAdForm: yourAdForm,
     yourAdFormFields: yourAdFormFields,
     enableFieldset: enableFieldset,
+    disableFieldset: disableFieldset,
     getPinCoordinates: getPinCoordinates,
     PIN_HEIGTH: PIN_HEIGTH,
     PIN_RADIUS: PIN_RADIUS
