@@ -11,8 +11,7 @@
 
   var onEscButtonPress = function (evt) {
     if (evt.keyCode === window.utils.ESC_KEYCODE) {
-      window.map.map.removeChild(document.querySelector('.map__card'));
-      document.removeEventListener('keydown', onEscButtonPress);
+      removeCard();
     }
   };
 
@@ -39,22 +38,27 @@
     });
 
     element.querySelector('.popup__avatar').src = card.author.avatar;
-    element.querySelector('.popup__close').addEventListener('click', function () {
-      element.remove();
-    });
+    element.querySelector('.popup__close').addEventListener('click', removeCard);
     document.addEventListener('keydown', onEscButtonPress);
     return element;
   };
 
-  var renderCard = function (array) {
+  var removeCard = function () {
     if (document.querySelector('.map__card')) {
       document.querySelector('.map__card').remove();
+      document.removeEventListener('keydown', onEscButtonPress);
+      document.removeEventListener('keydown', removeCard);
     }
+  };
+
+  var renderCard = function (array) {
+    removeCard();
     window.map.map.appendChild(generatePinCard(array));
   };
 
   window.card = {
-    renderCard: renderCard
+    renderCard: renderCard,
+    removeCard: removeCard
   };
 
 })();

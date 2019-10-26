@@ -1,35 +1,39 @@
 'use strict';
 (function () {
   var map = document.querySelector('.map');
-  var mapPinMain = document.querySelector('.map__pin--main');
 
-  var activatePage = function () {
+  var activateMap = function () {
     window.utils.removeClass(map, 'map--faded');
     window.utils.removeClass(window.form.yourAdForm, 'ad-form--disabled');
   };
 
-  var activateForm = function () {
-    window.form.enableFieldset(window.form.yourAdFormFields);
-    window.form.addressInput.value = window.form.getPinCoordinates(mapPinMain);
-    window.form.addressInput.readOnly = true;
+  var deactivateMap = function () {
+    window.utils.addClass(map, 'map--faded');
+    window.utils.addClass(window.form.yourAdForm, 'ad-form--disabled');
   };
 
-  var loadPins = function () {
-    window.load.load(window.pin.renderPins, window.load.onErrorHandler);
+  var resetPage = function () {
+    window.form.resetForm();
+    window.pin.removePins();
+    window.card.removeCard();
+    window.pin.placeMainPinDefault();
+    deactivateMap();
+    window.form.deactivateForm();
+    window.pin.mainPin.addEventListener('mousedown', mainPinClickHandler);
   };
 
   // дейстиве при нажатии на главный пин на карте
   var mainPinClickHandler = function () {
-    activatePage();
-    activateForm();
-    loadPins();
-    mapPinMain.removeEventListener('mousedown', mainPinClickHandler);
+    activateMap();
+    window.form.activateForm();
+    window.pin.loadPins();
+    window.pin.mainPin.removeEventListener('mousedown', mainPinClickHandler);
   };
 
-  mapPinMain.addEventListener('mousedown', mainPinClickHandler);
+  window.pin.mainPin.addEventListener('mousedown', mainPinClickHandler);
 
   window.map = {
-    mapPinMain: mapPinMain,
     map: map,
+    resetPage: resetPage
   };
 })();
