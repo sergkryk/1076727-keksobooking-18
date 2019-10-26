@@ -26,6 +26,19 @@
     100: [0]
   };
 
+  var resetForm = function () {
+    yourAdForm.reset();
+  };
+
+  var activateForm = function () {
+    enableFieldset(yourAdFormFields);
+    addressInput.value = getPinCoordinates(window.pin.mainPin);
+    addressInput.readOnly = true;
+  };
+
+  var deactivateForm = function () {
+    disableFieldset(yourAdFormFields);
+  };
 
   var getPinCoordinates = function (pin) {
     return Math.floor((pin.getBoundingClientRect().left - window.map.map.getBoundingClientRect().left) + PIN_RADIUS) + ',' + Math.floor((pin.getBoundingClientRect().top - window.map.map.getBoundingClientRect().top) + PIN_HEIGTH);
@@ -67,11 +80,25 @@
     });
   };
 
-  roomType.addEventListener('change', changeMinPrice);
+  var formSubmitSuccessHandler = function () {
+    window.map.resetPage();
+    window.message.showMessage();
+  };
+
+  var formSubmitErrorHandler = function (data) {
+    window.map.resetPage();
+    window.message.showErrorMessage(data);
+  };
 
   calculateGuestsNumber(roomNumber.value);
 
   changeMinPrice();
+
+  disableFieldset(yourAdFormFields);
+
+  addressInput.value = getPinCoordinates(window.pin.mainPin);
+
+  roomType.addEventListener('change', changeMinPrice);
 
   roomNumber.addEventListener('change', function (evt) {
     calculateGuestsNumber(evt.target.value);
@@ -85,18 +112,19 @@
     checkInTime.value = checkOutTime.value;
   });
 
-  disableFieldset(yourAdFormFields);
-
-  addressInput.value = getPinCoordinates(window.map.mapPinMain);
+  yourAdForm.addEventListener('submit', function (evt) {
+    window.backend.upload(new FormData(yourAdForm), formSubmitSuccessHandler, formSubmitErrorHandler);
+    evt.preventDefault();
+  });
 
   window.form = {
-    addressInput: addressInput,
     yourAdForm: yourAdForm,
-    yourAdFormFields: yourAdFormFields,
-    enableFieldset: enableFieldset,
-    disableFieldset: disableFieldset,
+    addressInput: addressInput,
+    activateForm: activateForm,
+    deactivateForm: deactivateForm,
     getPinCoordinates: getPinCoordinates,
     PIN_HEIGTH: PIN_HEIGTH,
-    PIN_RADIUS: PIN_RADIUS
+    PIN_RADIUS: PIN_RADIUS,
+    resetForm: resetForm
   };
 })();

@@ -6,7 +6,7 @@
   var bottomBorder = (window.map.map.getBoundingClientRect().bottom - filtersContainerHeight) - window.form.PIN_HEIGTH;
   var sideBorder = window.map.map.getBoundingClientRect().width - window.form.PIN_RADIUS * 2;
 
-  window.map.mapPinMain.addEventListener('mousedown', function (downEvt) {
+  window.pin.mainPin.addEventListener('mousedown', function (downEvt) {
     downEvt.preventDefault();
     var startCoords = {
       x: downEvt.clientX,
@@ -29,8 +29,8 @@
         y: moveEvt.clientY
       };
 
-      var positionY = window.map.mapPinMain.offsetTop - shift.y;
-      var positionX = window.map.mapPinMain.offsetLeft - shift.x;
+      var positionY = window.pin.mainPin.offsetTop - shift.y;
+      var positionX = window.pin.mainPin.offsetLeft - shift.x;
 
       positionY = positionY < mapTopShift ? mapTopShift : positionY;
       positionY = positionY > bottomBorder ? bottomBorder : positionY;
@@ -38,22 +38,22 @@
       positionX = positionX < mapLeftSide ? mapLeftSide : positionX;
       positionX = positionX > sideBorder ? sideBorder : positionX;
 
-      window.map.mapPinMain.style.top = positionY + 'px';
-      window.map.mapPinMain.style.left = positionX + 'px';
+      window.pin.mainPin.style.top = positionY + 'px';
+      window.pin.mainPin.style.left = positionX + 'px';
     };
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
-      window.form.addressInput.value = window.form.getPinCoordinates(window.map.mapPinMain);
+      window.form.addressInput.value = window.form.getPinCoordinates(window.pin.mainPin);
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
 
       if (dragged) {
         var onClickPreventDefault = function (evt) {
           evt.preventDefault();
-          window.map.mapPinMain.removeEventListener('click', onClickPreventDefault);
+          window.pin.mainPin.removeEventListener('click', onClickPreventDefault);
         };
-        window.map.mapPinMain.addEventListener('click', onClickPreventDefault);
+        window.pin.mainPin.addEventListener('click', onClickPreventDefault);
       }
     };
 

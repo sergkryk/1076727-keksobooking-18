@@ -4,11 +4,6 @@
   var errorMessage = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
   var errorBtn = errorMessage.querySelector('.error__button');
 
-  var removeListener = function (onClick, onKeydown) {
-    document.removeEventListener('click', onClick);
-    document.removeEventListener('keydown', onKeydown);
-  };
-
   var removeElement = function (className) {
     if (document.querySelector(className)) {
       document.querySelector(className).remove();
@@ -17,26 +12,30 @@
 
   var removeMessage = function () {
     removeElement('.success');
-    removeListener(removeMessage, onEscRemove);
+    document.removeEventListener('click', removeMessage);
+    document.removeEventListener('keydown', onEscRemove);
   };
 
   var removeErrorMessage = function () {
     removeElement('.error');
-    removeListener(removeErrorMessage, onErrorEscRemove);
+    document.removeEventListener('click', removeErrorMessage);
+    document.removeEventListener('keydown', onErrorEscRemove);
     errorBtn.removeEventListener('click', removeErrorMessage);
   };
 
   var onEscRemove = function (evt) {
     if (evt.keyCode === window.utils.ESC_KEYCODE) {
       removeElement('.success');
-      removeListener(removeMessage, onEscRemove);
+      document.removeEventListener('click', removeMessage);
+      document.removeEventListener('keydown', onEscRemove);
     }
   };
 
   var onErrorEscRemove = function (evt) {
     if (evt.keyCode === window.utils.ESC_KEYCODE) {
       removeElement('.error');
-      removeListener(removeErrorMessage, onErrorEscRemove);
+      document.removeEventListener('click', removeErrorMessage);
+      document.removeEventListener('keydown', onErrorEscRemove);
       errorBtn.removeEventListener('click', removeErrorMessage);
     }
   };
