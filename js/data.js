@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-  var advertsCount = 8;
+  var advertsCount = 20;
 
   var MOCK = {
     author: {
@@ -73,6 +73,6 @@
   };
 
   window.data = {
-    mockArray: generateContent(MOCK)
+    mockArray: generateContent(MOCK),
   };
 })();

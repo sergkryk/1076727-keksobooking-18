@@ -6,6 +6,7 @@
   var pinList = document.querySelector('.map__pins');
   var errorMessage = document.querySelector('#error').content.querySelector('.error');
   var mainPin = document.querySelector('.map__pin--main');
+  var pinDataArray = [];
 
   var generatePin = function (array) {
     var element = mapPin.cloneNode(true);
@@ -23,6 +24,7 @@
   var renderPins = function (array) {
     array.forEach(function (it) {
       pinList.appendChild(generatePin(it));
+      pinDataArray.push(it);
     });
   };
 
@@ -53,6 +55,8 @@
     mainPin: mainPin,
     placeMainPinDefault: placeMainPinDefault,
     removePins: removePins,
-    loadPins: loadPins
+    loadPins: loadPins,
+    renderPins: renderPins,
+    pinDataArray: pinDataArray
   };
 })();

@@ -16,7 +16,6 @@
     xhr.open('POST', URL);
     xhr.send(data);
   };
-
   // загрузка данных с сервера
   var load = function (onLoad, onError) {
     var URL = 'https://js.dump.academy/keksobooking/data';
