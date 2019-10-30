@@ -1,5 +1,9 @@
 'use strict';
 (function () {
+  var MIN_INDEX = 0;
+  var MAX_PIN_NUMBER = 5;
+  var PIN_CORR_Y = 70;
+  var PIN_CORR_X = 25;
   var LEFT = 570;
   var TOP = 375;
   var mapPin = document.querySelector('#pin').content.querySelector('.map__pin');
@@ -11,8 +15,8 @@
   var generatePin = function (array) {
     var element = mapPin.cloneNode(true);
     element.tabIndex = 0;
-    element.style.left = (array.location.x - 25) + 'px';
-    element.style.top = (array.location.y - 70) + 'px';
+    element.style.left = (array.location.x - PIN_CORR_X) + 'px';
+    element.style.top = (array.location.y - PIN_CORR_Y) + 'px';
     element.querySelector('img').src = array.author.avatar;
     element.querySelector('img').alt = array.offer.title;
     element.addEventListener('click', function () {
@@ -22,9 +26,13 @@
   };
 
   var renderPins = function (array) {
-    array.forEach(function (it) {
+    if (!pinDataArray[MIN_INDEX]) {
+      array.forEach(function (it) {
+        pinDataArray.push(it);
+      });
+    }
+    array.slice(MIN_INDEX, MAX_PIN_NUMBER).forEach(function (it) {
       pinList.appendChild(generatePin(it));
-      pinDataArray.push(it);
     });
   };
 

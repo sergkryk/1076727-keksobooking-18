@@ -7,8 +7,7 @@
   var filterByType = function (targetArray) {
     var arr = targetArray.filter(function (element) {
       return element.offer.type === type;
-    }).
-    slice(0, 5);
+    });
     return arr;
   };
 
