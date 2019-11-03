@@ -2,7 +2,6 @@
 (function () {
   var successMessage = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
   var errorMessage = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
-  var errorBtn = errorMessage.querySelector('.error__button');
 
   var removeElement = function (className) {
     if (document.querySelector(className)) {
@@ -10,33 +9,37 @@
     }
   };
 
-  var removeMessage = function () {
-    removeElement('.success');
+  var removeListenersOnSuccess = function () {
     document.removeEventListener('click', removeMessage);
     document.removeEventListener('keydown', onEscRemove);
   };
 
-  var removeErrorMessage = function () {
-    removeElement('.error');
+  var removeListenersOnError = function () {
     document.removeEventListener('click', removeErrorMessage);
     document.removeEventListener('keydown', onErrorEscRemove);
-    errorBtn.removeEventListener('click', removeErrorMessage);
+  };
+
+  var removeMessage = function () {
+    removeElement('.success');
+    removeListenersOnSuccess();
+  };
+
+  var removeErrorMessage = function () {
+    removeElement('.error');
+    removeListenersOnError();
   };
 
   var onEscRemove = function (evt) {
     if (evt.keyCode === window.utils.ESC_KEYCODE) {
       removeElement('.success');
-      document.removeEventListener('click', removeMessage);
-      document.removeEventListener('keydown', onEscRemove);
+      removeListenersOnSuccess();
     }
   };
 
   var onErrorEscRemove = function (evt) {
     if (evt.keyCode === window.utils.ESC_KEYCODE) {
       removeElement('.error');
-      document.removeEventListener('click', removeErrorMessage);
-      document.removeEventListener('keydown', onErrorEscRemove);
-      errorBtn.removeEventListener('click', removeErrorMessage);
+      removeListenersOnError();
     }
   };
 
@@ -51,7 +54,6 @@
     errorMessage.querySelector('p').textContent = data;
     document.addEventListener('click', removeErrorMessage);
     document.addEventListener('keydown', onErrorEscRemove);
-    errorBtn.addEventListener('click', removeErrorMessage);
   };
 
   window.message = {

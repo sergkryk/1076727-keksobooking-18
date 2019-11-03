@@ -357,6 +357,10 @@ fieldset {
   opacity: 1;
 }
 
+.site-form--disabled {
+  pointer-events: none;
+}
+
 .map--faded .map__filters {
   opacity: 0;
 }

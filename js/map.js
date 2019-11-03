@@ -26,7 +26,7 @@
   var mainPinClickHandler = function () {
     activateMap();
     window.form.activateForm();
-    window.pin.loadPins();
+    window.pin.processServerData();
     window.pin.mainPin.removeEventListener('mousedown', mainPinClickHandler);
   };
 

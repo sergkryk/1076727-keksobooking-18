@@ -2,6 +2,7 @@
 (function () {
   var PIN_RADIUS = 32.5;
   var PIN_HEIGTH = 80;
+  var mapFilters = document.querySelector('.map__filters');
   var roomType = document.querySelector('#type');
   var roomPrice = document.querySelector('#price');
   var roomTypeList = document.querySelector('#type').querySelectorAll('option');
@@ -12,7 +13,6 @@
   var checkInTime = document.querySelector('#timein');
   var addressInput = document.querySelector('#address');
   var yourAdForm = document.querySelector('.ad-form');
-  var yourAdFormFields = yourAdForm.querySelectorAll('fieldset');
   var appartmentTypePrice = {
     bungalo: 0,
     flat: 1000,
@@ -26,34 +26,40 @@
     100: [0]
   };
 
+  var disableForm = function (form) {
+    form.classList.add('site-form--disabled');
+    var elements = form.elements;
+    for (var i = 0; i < elements.length; ++i) {
+      elements[i].disabled = true;
+    }
+  };
+
+  var enableForm = function (form) {
+    form.classList.remove('site-form--disabled');
+    var elements = form.elements;
+    for (var i = 0; i < elements.length; ++i) {
+      elements[i].disabled = false;
+    }
+  };
+
   var resetForm = function () {
     yourAdForm.reset();
   };
 
   var activateForm = function () {
-    enableFieldset(yourAdFormFields);
+    enableForm(yourAdForm);
+    enableForm(mapFilters);
     addressInput.value = getPinCoordinates(window.pin.mainPin);
     addressInput.readOnly = true;
   };
 
   var deactivateForm = function () {
-    disableFieldset(yourAdFormFields);
+    disableForm(yourAdForm);
+    disableForm(mapFilters);
   };
 
   var getPinCoordinates = function (pin) {
     return Math.floor((pin.getBoundingClientRect().left - window.map.map.getBoundingClientRect().left) + PIN_RADIUS) + ',' + Math.floor((pin.getBoundingClientRect().top - window.map.map.getBoundingClientRect().top) + PIN_HEIGTH);
-  };
-
-  var disableFieldset = function (fieldset) {
-    for (var i = 0; i < fieldset.length; i++) {
-      fieldset[i].disabled = true;
-    }
-  };
-
-  var enableFieldset = function (fieldset) {
-    for (var i = 0; i < fieldset.length; i++) {
-      fieldset[i].disabled = false;
-    }
   };
 
   var changeMinPrice = function () {
@@ -94,7 +100,7 @@
 
   changeMinPrice();
 
-  disableFieldset(yourAdFormFields);
+  deactivateForm();
 
   addressInput.value = getPinCoordinates(window.pin.mainPin);
 
