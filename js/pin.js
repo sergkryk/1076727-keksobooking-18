@@ -1,7 +1,7 @@
 'use strict';
 (function () {
-  var MIN_INDEX = 0;
-  var MAX_PIN_NUMBER = 5;
+  // var MIN_INDEX = 0;
+  // var MAX_PIN_NUMBER = 5;
   var PIN_CORR_Y = 70;
   var PIN_CORR_X = 25;
   var LEFT = 570;
@@ -10,7 +10,6 @@
   var pinList = document.querySelector('.map__pins');
   var errorMessage = document.querySelector('#error').content.querySelector('.error');
   var mainPin = document.querySelector('.map__pin--main');
-  var pinDataArray = [];
 
   var generatePin = function (array) {
     var element = mapPin.cloneNode(true);
@@ -25,25 +24,25 @@
     return element;
   };
 
+  var initializationApp = function (data) {
+    window.data = data;
+    renderPins(window.filter.getAllFilter(data));
+  };
+
   var renderPins = function (array) {
-    if (!pinDataArray[MIN_INDEX]) {
-      array.forEach(function (it) {
-        pinDataArray.push(it);
-      });
-    }
-    array.slice(MIN_INDEX, MAX_PIN_NUMBER).forEach(function (it) {
+    array.forEach(function (it) {
       pinList.appendChild(generatePin(it));
     });
   };
 
-  var onLoadPinsError = function (message) {
+  var onLoadDataError = function (message) {
     var error = errorMessage.cloneNode(true);
     error.querySelector('p').textContent = message;
     document.querySelector('.map').appendChild(error);
   };
 
-  var loadPins = function () {
-    window.backend.load(renderPins, onLoadPinsError);
+  var processServerData = function () {
+    window.backend.load(initializationApp, onLoadDataError);
   };
 
   var removePins = function () {
@@ -63,8 +62,7 @@
     mainPin: mainPin,
     placeMainPinDefault: placeMainPinDefault,
     removePins: removePins,
-    loadPins: loadPins,
+    processServerData: processServerData,
     renderPins: renderPins,
-    pinDataArray: pinDataArray
   };
 })();

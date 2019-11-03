@@ -2,25 +2,27 @@
 (function () {
   var mapFilters = document.querySelector('.map__filters');
   var housingType = mapFilters.querySelector('#housing-type');
-  var type;
+  var maxPinNumber = 5;
 
-  var filterByType = function (targetArray) {
-    var arr = targetArray.filter(function (element) {
-      return element.offer.type === type;
-    });
-    return arr;
+  var getHousingType = function (obj) {
+    return housingType.value === 'any' ? true : housingType.value === obj.offer.type;
   };
 
-  var changeTypeHandler = function () {
-    type = housingType.value;
-    if (type !== 'any') {
-      var filteredPins = filterByType(window.pin.pinDataArray);
-    } else {
-      filteredPins = window.pin.pinDataArray;
-    }
+  var getAllFilter = function (data) {
+    return data.filter(function (el) {
+      return getHousingType(el);
+    }).slice(0, maxPinNumber);
+  };
+
+  var filterChangeHandler = function () {
     window.pin.removePins();
-    window.pin.renderPins(filteredPins);
+    window.pin.renderPins(getAllFilter(window.data));
   };
 
-  housingType.addEventListener('change', changeTypeHandler);
+  mapFilters.addEventListener('change', filterChangeHandler);
+
+  window.filter = {
+    getAllFilter: getAllFilter
+  };
+
 })();
