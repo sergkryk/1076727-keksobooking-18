@@ -10,10 +10,14 @@
 
   var getHousingPrice = function (element) {
     switch (housingPrice.value) {
-      case 'low': return element.offer.price < 10000;
-      case 'middle': return element.offer.price >= 10000 && element.offer.price <= 50000;
-      case 'high': return element.offer.price > 50000;
-      default: return true;
+      case 'low':
+        return element.offer.price < 10000;
+      case 'middle':
+        return element.offer.price >= 10000 && element.offer.price <= 50000;
+      case 'high':
+        return element.offer.price > 50000;
+      default:
+        return true;
     }
   };
 
@@ -50,12 +54,10 @@
     }).slice(0, maxPinNumber);
   };
 
-  var filterChangeHandler = function () {
-    window.setTimeout(function () {
-      window.pin.removePins();
-      window.pin.renderPins(getAllFilter(window.data));
-    }, 500);
-  };
+  var filterChangeHandler = window.debounce(function () {
+    window.pin.removePins();
+    window.pin.renderPins(getAllFilter(window.data));
+  });
 
   mapFilters.addEventListener('change', filterChangeHandler);
 
