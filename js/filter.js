@@ -8,36 +8,24 @@
   var housingOptions = mapFilters.querySelectorAll('input');
   var maxPinNumber = 5;
 
-  var checkRoomPrice = function (element) {
-    var value;
-    if (element.offer.price < 10000) {
-      value = 'low';
-    } else if (element.offer.price >= 10000 && element.offer.price <= 50000) {
-      value = 'middle';
-    } else if (element.offer.price > 50000) {
-      value = 'high';
+  var getHousingPrice = function (element) {
+    switch (housingPrice.value) {
+      case 'low': return element.offer.price < 10000;
+      case 'middle': return element.offer.price >= 10000 && element.offer.price <= 50000;
+      case 'high': return element.offer.price > 50000;
+      default: return true;
     }
-    return value;
   };
 
-  var compareOption = function (obj, option) {
-    var status = false;
-    obj.offer.features.forEach(function (it) {
-      switch (it) {
-        case option.value:
-          status = true;
-          break;
-      }
+
+  var getOptions = function (obj) {
+    return Array.from(housingOptions).filter(function (element) {
+      return element.checked;
+    }).map(function (element) {
+      return element.value;
+    }).every(function (feature) {
+      return obj.offer.features.includes(feature);
     });
-    return status;
-  };
-
-  var getOption = function (obj, option) {
-    return !option.checked ? true : compareOption(obj, option);
-  };
-
-  var getHousingPrice = function (obj) {
-    return housingPrice.value === 'any' ? true : housingPrice.value === checkRoomPrice(obj);
   };
 
   var getHousingType = function (obj) {
@@ -58,12 +46,7 @@
         getHousingRooms(el) &&
         getGuestsNumber(el) &&
         getHousingPrice(el) &&
-        getOption(el, housingOptions[0]) &&
-        getOption(el, housingOptions[1]) &&
-        getOption(el, housingOptions[2]) &&
-        getOption(el, housingOptions[3]) &&
-        getOption(el, housingOptions[4]) &&
-        getOption(el, housingOptions[5]);
+        getOptions(el);
     }).slice(0, maxPinNumber);
   };
 
