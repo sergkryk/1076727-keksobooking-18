@@ -13,6 +13,8 @@
   var checkInTime = document.querySelector('#timein');
   var addressInput = document.querySelector('#address');
   var yourAdForm = document.querySelector('.ad-form');
+  var resetFormButton = document.querySelector('.ad-form__reset');
+
   var appartmentTypePrice = {
     bungalo: 0,
     flat: 1000,
@@ -44,6 +46,7 @@
 
   var resetForm = function () {
     yourAdForm.reset();
+    window.upload.clearUploads();
   };
 
   var activateForm = function () {
@@ -121,6 +124,11 @@
   yourAdForm.addEventListener('submit', function (evt) {
     window.backend.upload(new FormData(yourAdForm), formSubmitSuccessHandler, formSubmitErrorHandler);
     evt.preventDefault();
+  });
+
+  resetFormButton.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    resetForm();
   });
 
   window.form = {
