@@ -818,6 +818,8 @@ fieldset {
 
   background-color: #e4e4de;
   border-radius: 5px;
+  background-size: cover;
+
 }
 
 .ad-form__element--submit {
