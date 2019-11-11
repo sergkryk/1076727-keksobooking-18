@@ -1,7 +1,5 @@
 'use strict';
 (function () {
-  // var MIN_INDEX = 0;
-  // var MAX_PIN_NUMBER = 5;
   var PIN_CORR_Y = 70;
   var PIN_CORR_X = 25;
   var LEFT = 570;
