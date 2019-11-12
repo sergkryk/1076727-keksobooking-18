@@ -9,7 +9,7 @@
     bungalo: 'Бунгало'
   };
 
-  var onEscButtonPress = function (evt) {
+  var escButtonPressHandler = function (evt) {
     if (evt.keyCode === window.utils.ESC_KEYCODE) {
       removeCard();
     }
@@ -39,14 +39,14 @@
 
     element.querySelector('.popup__avatar').src = card.author.avatar;
     element.querySelector('.popup__close').addEventListener('click', removeCard);
-    document.addEventListener('keydown', onEscButtonPress);
+    document.addEventListener('keydown', escButtonPressHandler);
     return element;
   };
 
   var removeCard = function () {
     if (document.querySelector('.map__card')) {
       document.querySelector('.map__card').remove();
-      document.removeEventListener('keydown', onEscButtonPress);
+      document.removeEventListener('keydown', escButtonPressHandler);
       document.removeEventListener('keydown', removeCard);
     }
   };

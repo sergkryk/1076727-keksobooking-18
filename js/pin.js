@@ -33,14 +33,14 @@
     });
   };
 
-  var onLoadDataError = function (message) {
+  var processLoadError = function (message) {
     var error = errorMessage.cloneNode(true);
     error.querySelector('p').textContent = message;
     document.querySelector('.map').appendChild(error);
   };
 
   var processServerData = function () {
-    window.backend.load(initializationApp, onLoadDataError);
+    window.backend.load(initializationApp, processLoadError);
   };
 
   var removePins = function () {

@@ -1,10 +1,10 @@
 'use strict';
 (function () {
-  var mapLeftSide = 0;
+  var mapLeftSide = 0 - window.form.PIN_RADIUS;
   var mapTopShift = 80;
   var filtersContainerHeight = document.querySelector('.map__filters-container').getBoundingClientRect().height;
   var bottomBorder = (window.map.map.getBoundingClientRect().bottom - filtersContainerHeight) - window.form.PIN_HEIGTH;
-  var sideBorder = window.map.map.getBoundingClientRect().width - window.form.PIN_RADIUS * 2;
+  var sideBorder = window.map.map.getBoundingClientRect().width - window.form.PIN_RADIUS;
 
   window.pin.mainPin.addEventListener('mousedown', function (downEvt) {
     downEvt.preventDefault();
@@ -15,7 +15,7 @@
 
     var dragged = false;
 
-    var onMouseMove = function (moveEvt) {
+    var mouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
       dragged = true;
 
@@ -42,22 +42,22 @@
       window.pin.mainPin.style.left = positionX + 'px';
     };
 
-    var onMouseUp = function (upEvt) {
+    var mouseUpHandler = function (upEvt) {
       upEvt.preventDefault();
       window.form.addressInput.value = window.form.getPinCoordinates(window.pin.mainPin);
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
 
       if (dragged) {
-        var onClickPreventDefault = function (evt) {
+        var mouseClickHandler = function (evt) {
           evt.preventDefault();
-          window.pin.mainPin.removeEventListener('click', onClickPreventDefault);
+          window.pin.mainPin.removeEventListener('click', mouseClickHandler);
         };
-        window.pin.mainPin.addEventListener('click', onClickPreventDefault);
+        window.pin.mainPin.addEventListener('click', mouseClickHandler);
       }
     };
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mousemove', mouseMoveHandler);
+    document.addEventListener('mouseup', mouseUpHandler);
   });
 })();
